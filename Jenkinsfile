@@ -14,7 +14,12 @@ pipeline {
         stage('Deploy to Production Environment'){
             steps{
                 timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
+                    script {
+                def userInput = input(
+                    message: 'PRODUCTION Dağıtımını Onayla?',
+                    ok: 'Evet',
+                    parameters: [booleanParam(defaultValue: false, description: '', name: 'İptal')]
+                )
                 }
                 build job: 'Deploy-Application-Production-Environment'
             }
